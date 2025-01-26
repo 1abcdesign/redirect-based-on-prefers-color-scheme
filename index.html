@@ -13,16 +13,29 @@
 </style>
 <body>
   <script>
+    // Get the user's preferred language
+    const userLang = navigator.language || navigator.userLanguage;
+
     // Check if the user prefers dark mode
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      // Set redirect tab background to black if black is preferred by user agent
-      document.body.style.backgroundColor = 'black';
-      // Redirect to the dark theme URL
-      window.location.href = 'https://drive.google.com/file/d/1rh1FdX5F65rFrVqWCKt0IlMf5WQSAwl3/view?usp=sharing';
-    } else {
-      // Redirect to the default theme URL
-      window.location.href = 'https://drive.google.com/file/d/1kRcvX2GjSjgvC4JmL56uYnDCEnJUaSHG/view?usp=sharing';
-    }
+    const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    // Define the URLs for the different combinations of theme
+    const urls = {
+      "dark-en": "https://drive.google.com/file/d/1RRYNn1iIaF29Nmv423GfiMu_JQPJ35rA/view?usp=sharing", // English Dark
+      "light-en": "https://drive.google.com/file/d/11WNS0aFeWPPPStjyxQ_-bTLOJXej_vgD/view?usp=sharing", // English Light
+      "dark-ua": "https://drive.google.com/file/d/1jHBMHSVIkZ9LQBNkFAjT6sjthinWyjRx/view?usp=sharing", // Ukrainian Dark
+      "light-ua": "https://drive.google.com/file/d/15LGWmXvX1S13yu1FiN7bOTYgVpWRxAO2/view?usp=sharing", // Ukrainian Light
+    };
+
+    // Check if the language is either Ukrainian (uk) or Russian (ru), otherwise default to English
+    let languageKey = (userLang.startsWith('uk') || userLang.startsWith('ru')) ? 'ua' : 'en';
+
+    // Combine the language and theme to determine the correct URL
+    const theme = prefersDarkMode ? 'dark' : 'light';
+    const redirectUrl = `${theme}-${languageKey}`;
+
+    // Redirect to the appropriate URL based on language and theme
+    window.location.href = urls[redirectUrl];
   </script>
 </body>
 </html>
